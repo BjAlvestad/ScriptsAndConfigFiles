@@ -395,7 +395,7 @@ wp_Restore() {
     WinGet, id, list, , , Program Manager
     Loop, %id%
     {
-        ; Aktionen rückhängig ...
+        ; Aktionen r?ckh?ngig ...
         hwnd := id%A_Index%
         WinGetTitle, WinTitle, ahk_id %hwnd%
         
