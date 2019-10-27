@@ -1208,7 +1208,9 @@ wp_CalcNewPosition:
     return
 
 wp_CalcMonitorStats:
-    ; Get work area (excludes taskbar-reserved space.)
+    ; Get work area (excludes taskbar-reserved space.) https://www.autohotkey.com/docs/commands/SysGet.htm#MonitorWorkArea
+    ; Seems to be an issue that AHK (AutoHotkey) only reads DPI scaling from main display https://github.com/hoppfrosch/WindowPadX/issues/23
+    ; Not per-monitor DPI awarenes:  https://stackoverflow.com/questions/43927562/do-relative-coordinates-for-a-window-change-depending-on-the-resolution
     SysGet, mon, MonitorWorkArea, %m%
     monWidth  := monRight - monLeft
     monHeight := monBottom - monTop
