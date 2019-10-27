@@ -1046,6 +1046,7 @@ Parameters:
   
 Author(s):
     Original - Lexikos - http://www.autohotkey.com/forum/topic21703.html
+    20191027 - BjAlv - Removed functionality where window would jump to next monitor when at edge
 ===============================================================================
 */
 WPXA_Move(sideX, sideY, widthFactor, heightFactor, winTitle)
@@ -1115,40 +1116,13 @@ WPXA_Move(sideX, sideY, widthFactor, heightFactor, winTitle)
 
     ; If the window is already there,
     if (newx "," newy "," neww "," newh) = (x "," y "," w "," h)
-    {   ; ..move to the next monitor along instead.
-    
-        if (sideX or sideY)
-        {   ; Move in the direction of sideX or sideY.
-            SysGet, monB, Monitor, %m% ; get bounds of entire monitor (vs. work area)
-            x := (sideX=0) ? (x+w/2) : (sideX>0 ? monBRight : monBLeft) + sideX
-            y := (sideY=0) ? (y+h/2) : (sideY>0 ? monBBottom : monBTop) + sideY
-            newm := wp_GetMonitorAt(x, y, m)
-        }
+    { ; No monitor to move to, alternate size of window instead.
+        if sideX
+            widthFactor /= 2
+        else if sideY
+            heightFactor /= 2
         else
-        {   ; Move to center (Numpad5)
-            newm := m+1
-            SysGet, mon, MonitorCount
-            if (newm > mon)
-                newm := 1
-        }
-    
-        if (newm != m)
-        {   m := newm
-            ; Move to opposite side of monitor (left of a monitor is another monitor's right edge)
-            sideX *= -1
-            sideY *= -1
-            ; Get new monitor's work area.
-            gosub wp_CalcMonitorStats
-        }
-        else
-        {   ; No monitor to move to, alternate size of window instead.
-            if sideX
-                widthFactor /= 2
-            else if sideY
-                heightFactor /= 2
-            else
-                widthFactor *= 1.5
-        }
+            widthFactor *= 1.5
         
         ; Calculate new position for window.
         gosub wp_CalcNewSizeAndPosition
