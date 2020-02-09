@@ -1051,6 +1051,7 @@ Author(s):
 */
 WPXA_Move(sideX, sideY, widthFactor, heightFactor, winTitle)
 {
+    originalContext := DllCall("SetThreadDpiAwarenessContext", "ptr", -3, "ptr")
     if ! hwnd := wp_WinExist(winTitle)
         return
 
@@ -1168,6 +1169,7 @@ WPXA_Move(sideX, sideY, widthFactor, heightFactor, winTitle)
     SetWinDelay, WinDelay
     
     wp_RememberPos(hwnd)
+    DllCall("SetThreadDpiAwarenessContext", "ptr", originalContext, "ptr")
     return
 
 wp_CalcNewSizeAndPosition:
