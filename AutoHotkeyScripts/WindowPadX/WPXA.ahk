@@ -1115,15 +1115,15 @@ WPXA_Move(sideX, sideY, widthFactor, heightFactor, winTitle)
     ; Calculate possible new position for window.
     gosub wp_CalcNewSizeAndPosition
 
-    ; If the window is already there,
+    ; If the window is already there, then change height of windows instead
     if (newx "," newy "," neww "," newh) = (x "," y "," w "," h)
-    { ; No monitor to move to, alternate size of window instead.
-        if sideX
-            widthFactor /= 2
-        else if sideY
-            heightFactor /= 2
-        else
-            widthFactor *= 1.5
+    {
+        if sideY = -1
+            heightFactor := 0.7
+        else if sideY = 0
+            heightFactor := 0.4
+        else if sideY = +1
+            heightFactor := 0.3
         
         ; Calculate new position for window.
         gosub wp_CalcNewSizeAndPosition
